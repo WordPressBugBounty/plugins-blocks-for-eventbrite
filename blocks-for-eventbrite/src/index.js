@@ -1,8 +1,8 @@
-import { render } from '@wordpress/element';
+import { createRoot } from '@wordpress/element';
 import domReady from '@wordpress/dom-ready';
 
 import EventList from './components/EventList';
-import { getLocalizeData } from './utilities';
+import { getLocalizeData, getDefaultAttributes } from './utilities';
 import './blocks/event-cards';
 
 import 'tippy.js/themes/light.css';
@@ -13,14 +13,12 @@ import './base.css';
 const [ events, attributes ] = getLocalizeData( 'events', 'attributes' );
 
 function App() {
-	return <EventList events={ events } attributes={ attributes } />;
+	return <EventList events={ events } attributes={ getDefaultAttributes( attributes ) } />;
 }
 
 domReady( function() {
-	if ( document.getElementById( 'root-blocks-for-eventbrite' ) ) {
-		render(
-			<App />,
-			document.getElementById( 'root-blocks-for-eventbrite' )
-		);
+    const root = document.getElementById( 'root-blocks-for-eventbrite' );
+	if ( root ) {
+		createRoot( root ).render( <App /> );
 	}
 } );
